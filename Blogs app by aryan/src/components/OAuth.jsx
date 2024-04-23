@@ -19,9 +19,11 @@ const handleGoogleClick=async()=>{
   try{
     const resultsFromGoogle=await signInWithPopup(auth,provider);
 // console.log(resultsFromGoogle);
-const res=await fetch('http://localhost:4000/api/auth/signin',{
+const res=await fetch('http://localhost:4000/api/auth/google',{
     method:'POST',
     headers:{'Content-Type':'application/json'},
+    credentials:'include',
+  
     body:JSON.stringify({
         name:resultsFromGoogle.user.displayName,
         email:resultsFromGoogle.user.email,

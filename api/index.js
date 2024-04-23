@@ -8,6 +8,8 @@ app.use(express.json());
 app.use(cookieParser());
 const userRoute = require("./routes/userroute");
 const authRoute = require("./routes/authroute");
+const postRoute=require("./routes/post.route");
+const commentRoute=require("./routes/comment.route");
 
 mongoose.connect('mongodb://localhost:27017/AryanBlogs')
   .then(() => {
@@ -18,7 +20,14 @@ mongoose.connect('mongodb://localhost:27017/AryanBlogs')
   });
 
 // Apply CORS middleware
-app.use(cors());
+app.use(cors({
+  origin: 'http://localhost:3000',
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+}));
+
+
+
 
 app.listen(4000, () => {
   console.log("Server is running at 4000!!");
@@ -27,6 +36,8 @@ app.listen(4000, () => {
 // Define routes after applying CORS middleware
 app.use("/api/user", userRoute);
 app.use("/api/auth", authRoute);
+app.use("/api/post",postRoute);
+app.use("/api/comment",commentRoute);
 
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;
